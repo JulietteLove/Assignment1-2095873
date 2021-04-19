@@ -109,12 +109,13 @@ public class CombatSystem : MonoBehaviour
         DiceScript diceScript = GameObject.FindWithTag("Dice").GetComponent<DiceScript>();
 
         state = CombatState.PLAYERROLL;
+        CanRoll = true;
         diceScript.ConsoleText.text = "Your turn";
     }
 
     void PlayerRollDice()
     {
-        CanRoll = true;
+        //CanRoll = true; 
     }
 
     void MissTextDisappear()

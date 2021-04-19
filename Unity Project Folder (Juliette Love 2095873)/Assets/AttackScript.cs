@@ -27,15 +27,15 @@ public class AttackScript : MonoBehaviour
 
         FireballBurn = Random.Range(1, 6);
 
-        if (FireballBurn >= 3 && PlayerCanAttack == true)
+        if (FireballBurn >= 3 && PlayerCanAttack == true) //Player is burned
         {
-            enemy.currentHealth -= 0.4f;
+            enemy.currentHealth -= 0.1f;
             enemyHealth.fillAmount = enemy.currentHealth / 1;
 
             Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
             DiceScript diceScript = GameObject.FindWithTag("Dice").GetComponent<DiceScript>();
 
-            player.currentHealth -= 0.2f;
+            player.currentHealth -= 0.3f;
             diceScript.playerHealth.fillAmount = player.currentHealth / 1;
             ConsoleText.text = "You were burned";
 
@@ -54,7 +54,7 @@ public class AttackScript : MonoBehaviour
             PlayerCanAttack = false;
         }
         
-        if (FireballBurn < 3 && PlayerCanAttack == true)
+        if (FireballBurn < 3 && PlayerCanAttack == true) // Player is not burned
         {
             enemy.currentHealth -= 0.4f;
             enemyHealth.fillAmount = enemy.currentHealth / 1;

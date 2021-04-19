@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class DiceScript : MonoBehaviour
 {
     public float NumberRolled;
+    public float FinalNumberRolled;
+    public float ChanceToHit = 1;
     public float EnemyNumberRolled;
     public bool ButtonPressed = false;
     public GameObject DiceText;
@@ -27,13 +29,28 @@ public class DiceScript : MonoBehaviour
         if (ButtonPressed == true && combatSystem.CanRoll == true)
         {
             NumberRolled = Random.Range(1, 6);
-            DiceText.GetComponent<UnityEngine.UI.Text>().text = NumberRolled.ToString("F0");
+
+            //Calculate on final rolled value. 
+
+            FinalNumberRolled = NumberRolled + ChanceToHit;
+
+            if (FinalNumberRolled >= 6) //To make sure it does nto show a larger value. 
+            {
+                FinalNumberRolled = 6; 
+            }
+            
+            DiceText.GetComponent<UnityEngine.UI.Text>().text = FinalNumberRolled.ToString("F0");
             ButtonPressed = false;
             
             Enemy enemy = GameObject.FindWithTag("Enemy").GetComponent<Enemy>();
 
-            if (enemy.defenceNumber >= NumberRolled) //Enemy defends itself.
+            if (enemy.defenceNumber >= FinalNumberRolled) //Enemy defends itself. Player misses.
             {
+                if (ChanceToHit == 0)
+                {
+                    ChanceToHit += 1;
+                }
+
                 ConsoleText.text = "Miss";
                 Invoke("EnemyTurn", 2f);
 
@@ -43,14 +60,19 @@ public class DiceScript : MonoBehaviour
                     Invoke("MissTextDisappear", 3f);
                     FirstTimePlayerMiss = false;
                 }
-                
 
                 AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
                 attackScript.PlayerCanAttack = true;
             }
             
-            if (enemy.defenceNumber < NumberRolled) //Option to deal damage to enemy. Attack buttons appear. 
+            if (enemy.defenceNumber < FinalNumberRolled) //Option to deal damage to enemy. Attack buttons appear. 
             {
+
+                if (ChanceToHit == 1)
+                {
+                    ChanceToHit = 0;
+                }
+
                 combatSystem.state = CombatState.PLAYERCOMBAT;
                 ConsoleText.text = "Your turn";
 
