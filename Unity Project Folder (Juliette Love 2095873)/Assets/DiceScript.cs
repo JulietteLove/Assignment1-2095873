@@ -34,11 +34,11 @@ public class DiceScript : MonoBehaviour
 
             FinalNumberRolled = NumberRolled + ChanceToHit;
 
-            if (FinalNumberRolled >= 6) //To make sure it does nto show a larger value. 
+            if (FinalNumberRolled >= 6) //To make sure it does into show a larger value. 
             {
-                FinalNumberRolled = 6; 
+                FinalNumberRolled = 6;
             }
-            
+
             DiceText.GetComponent<UnityEngine.UI.Text>().text = FinalNumberRolled.ToString("F0");
             ButtonPressed = false;
             
